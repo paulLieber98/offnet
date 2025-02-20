@@ -1,4 +1,4 @@
-import { ChakraProvider, Box } from '@chakra-ui/react'
+import { ChakraProvider, Box, ColorModeScript } from '@chakra-ui/react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { useState } from 'react'
 import theme from './theme'
@@ -20,23 +20,35 @@ function App() {
   window.addEventListener('offline', () => setIsOnline(false))
 
   return (
-    <ChakraProvider theme={theme}>
-      <AIProvider>
-        <ProgressProvider>
-          <Box minH="100vh" bg="gray.50">
-            <Router>
-              <Navigation />
-              <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/learn/:moduleId" element={<LearningModule />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/settings" element={<Settings />} />
-              </Routes>
-            </Router>
-          </Box>
-        </ProgressProvider>
-      </AIProvider>
-    </ChakraProvider>
+    <>
+      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+      <ChakraProvider theme={theme}>
+        <AIProvider>
+          <ProgressProvider>
+            <Box minH="100vh" display="flex" flexDirection="column">
+              <Router>
+                <Navigation />
+                <Box 
+                  flex="1" 
+                  display="flex" 
+                  flexDirection="column" 
+                  width="100%" 
+                  maxWidth="100vw"
+                  overflow="hidden"
+                >
+                  <Routes>
+                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/learn/:moduleId" element={<LearningModule />} />
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/settings" element={<Settings />} />
+                  </Routes>
+                </Box>
+              </Router>
+            </Box>
+          </ProgressProvider>
+        </AIProvider>
+      </ChakraProvider>
+    </>
   )
 }
 
